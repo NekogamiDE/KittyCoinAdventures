@@ -96,6 +96,12 @@ namespace IdleEngine.Generator
 
             double calculatedSum = 0;
 
+            while (productionCycleInSeconds < 0 && productionCycleInSeconds <= -ProductionTimeInSeconds)
+            {
+                calculatedSum += -BaseRevenue * Owned * _multiplier;
+                productionCycleInSeconds += ProductionTimeInSeconds;
+            }
+
             while (productionCycleInSeconds >= ProductionTimeInSeconds)
             {
                 calculatedSum += BaseRevenue * Owned * _multiplier;
