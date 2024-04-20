@@ -9,7 +9,7 @@ namespace IdleEngine
 
         public static string InLetters(this double value)
         {
-            return value < 1000 ? value.ToString("f") : value.ToString("e2");
+            return "0"; // value < 1000 ? value.ToString("f") : value.ToString("e2");
         }
 
         public static string Normal(this double value)
