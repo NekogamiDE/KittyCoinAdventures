@@ -48,6 +48,19 @@ namespace IdleEngine.Sessions
             Money += CalculateProgress(deltaTimeInSeconds);
         }
 
+        private double GetCoins(string name)
+        {
+            foreach (var item in Generator)
+            {
+                if(item.Name == name)
+                {
+                    item.Produce(0); //nicht produce, sondern extra funktion im generator fürs einsammeln der coins
+                }
+            }
+
+            return 0;
+        }
+
         private double CalculateProgress(float deltaTimeInSeconds)
         {
             return Generator == null ? 0 : Generator.Sum(generator => generator.Produce(deltaTimeInSeconds));

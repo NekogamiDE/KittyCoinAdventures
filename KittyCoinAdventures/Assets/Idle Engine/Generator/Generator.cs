@@ -21,6 +21,7 @@ namespace IdleEngine.Generator
         private RuntimeData _data = new RuntimeData();
 
         private double _multiplier;
+        
 
         public int Owned
         {
@@ -37,10 +38,12 @@ namespace IdleEngine.Generator
         public double BaseCost;
         public double BaseRevenue;
         public float BaseProductionTimeInSeconds;
+        public int ProductionCount;
         public double CostFactor;
         public Multiplier[] Multipliers;
         public string Name;
         public Sprite Image;
+        private int ProductionsLeft;
 
         // 0..1
         public float ProductionCycleNormalized => ProductionCycleInSeconds / ProductionTimeInSeconds;
@@ -57,6 +60,7 @@ namespace IdleEngine.Generator
         private void OnEnable()
         {
             _data = new RuntimeData();
+            ProductionsLeft = 5;//ProductionCount;
             Precalculate();
         }
 
@@ -96,16 +100,23 @@ namespace IdleEngine.Generator
 
             double calculatedSum = 0;
 
-            while (productionCycleInSeconds < 0 && productionCycleInSeconds <= -ProductionTimeInSeconds)
+            if (ProductionsLeft == 0)
+            {
+                productionCycleInSeconds = 0;
+            }
+
+            while (productionCycleInSeconds < 0 && productionCycleInSeconds <= -ProductionTimeInSeconds && ProductionsLeft > 0)
             {
                 calculatedSum += -BaseRevenue * Owned * _multiplier;
                 productionCycleInSeconds += ProductionTimeInSeconds;
+                ProductionsLeft--;
             }
 
-            while (productionCycleInSeconds >= ProductionTimeInSeconds)
+            while (productionCycleInSeconds >= ProductionTimeInSeconds && ProductionsLeft > 0)
             {
                 calculatedSum += BaseRevenue * Owned * _multiplier;
                 productionCycleInSeconds -= ProductionTimeInSeconds;
+                ProductionsLeft--;
             }
 
             return calculatedSum;
@@ -113,6 +124,7 @@ namespace IdleEngine.Generator
 
         private void Precalculate()
         {
+            
             UpdateModifiers();
             UpdateMultiplier();
             UpdateNextBuildingCosts();
@@ -123,7 +135,14 @@ namespace IdleEngine.Generator
         {
             var productionCycleInSeconds = 0f;
             //MoneyPerMinute = this.BaseRevenue / 60.0 * ProductionTimeInSeconds;
-            MoneyPerMinute = Produce(60, ref productionCycleInSeconds);
+            float mpmcycle = 60f;
+            double sum = 0;
+            while(mpmcycle >= ProductionTimeInSeconds)
+            {
+                sum += BaseRevenue * Owned *_multiplier;
+                mpmcycle -= ProductionTimeInSeconds;
+            }
+            MoneyPerMinute = sum; //(60, ref productionCycleInSeconds);
         }
 
         private void UpdateNextBuildingCosts()
