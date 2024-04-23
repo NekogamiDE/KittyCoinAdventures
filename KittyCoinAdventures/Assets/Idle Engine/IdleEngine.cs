@@ -14,6 +14,14 @@ namespace IdleEngine
         public Session Session;
         public GeneratorUi GeneratorUiPrefab;
         public Transform GeneratorContainer;
+<<<<<<< Updated upstream
+=======
+        public CatHomeUi CatHomeUiPrefab;
+        public Transform CatHomeContainer;
+        public ShopUi ShopUiPrefab;
+        public Transform ShopItemContainer;
+        //public Transform ShopCatContainer;
+>>>>>>> Stashed changes
         public TextMeshProUGUI CoinsText;
 
         private void Awake()
@@ -30,6 +38,80 @@ namespace IdleEngine
             }
         }
 
+<<<<<<< Updated upstream
+=======
+        public void CreateShopCosmeticUi()
+        {
+            if (!Session)
+            {
+                return;
+            }
+
+            for (var i = ShopItemContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(ShopItemContainer.GetChild(i).gameObject);
+            }
+
+            /*foreach (var generator in Session.Generator)
+            {
+                var shopUi = Instantiate(ShopUiPrefab, ShopCatContainer, false);
+                shopUi.SetShop(canvas);
+            }*/
+            foreach (var cosmetic in Session.Cosmetic)
+            {
+                var shopUi = Instantiate(ShopUiPrefab, ShopItemContainer, false);
+                //shopUi.SetShop(canvas);
+            }
+        }
+
+        public void ShopCosmeticBtn_Click()
+        {
+            CreateShopCosmeticUi();
+        }
+
+
+        public void CreateShopCatUi()
+        {
+            if (!Session)
+            {
+                return;
+            }
+
+            for (var i = ShopItemContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(ShopItemContainer.GetChild(i).gameObject);
+            }
+
+            foreach (var generator in Session.Generator)
+            {
+                var shopUi = Instantiate(ShopUiPrefab, ShopItemContainer, false);
+                //shopUi.SetShop(canvas);
+            }
+            /*foreach (var cosmetic in Session.Cosmetic)
+            {
+                var shopUi = Instantiate(ShopUiPrefab, ShopItemContainer, false);
+                shopUi.SetShop(canvas);
+            }*/
+        }
+        public void ShopCatBtn_Click()
+        {
+            CreateShopCatUi();
+        }
+
+        
+
+        public void CreateCatHomeUi(Generator.Generator generator)
+        {
+            for (var i = CatHomeContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(CatHomeContainer.GetChild(i).gameObject);
+            }
+
+            var cathomeUi = Instantiate(CatHomeUiPrefab, CatHomeContainer, false);
+            cathomeUi.SetCatHome(generator, canvas);
+        }
+
+>>>>>>> Stashed changes
         private void CreateGeneratorUis()
         {
             if (!Session)

@@ -25,6 +25,7 @@ namespace IdleEngine.Sessions
         private RuntimeData _data = new();
 
         public Generator.Generator[] Generator;
+        public Cosmetic.Cosmetic[] Cosmetic;
 
         public double Money
         {
