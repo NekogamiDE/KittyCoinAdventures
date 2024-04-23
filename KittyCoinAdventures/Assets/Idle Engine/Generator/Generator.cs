@@ -107,7 +107,7 @@ namespace IdleEngine.Generator
 
         private void Precalculate()
         {
-            //UpdateModifiers();
+            UpdateModifiers();
             UpdateMultiplier();
             UpdateNextBuildingCosts();
             UpdateMoneyPerMinute();
@@ -116,8 +116,8 @@ namespace IdleEngine.Generator
         private void UpdateMoneyPerMinute()
         {
             var productionCycleInSeconds = 0f;
-            MoneyPerMinute = this.BaseRevenue / 60.0 * ProductionTimeInSeconds;
-            //MoneyPerMinute = Produce(60, ref productionCycleInSeconds);
+            //MoneyPerMinute = this.BaseRevenue / 60.0 * ProductionTimeInSeconds;
+            MoneyPerMinute = Produce(60, ref productionCycleInSeconds);
         }
 
         private void UpdateNextBuildingCosts()
