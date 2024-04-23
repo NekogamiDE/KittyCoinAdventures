@@ -54,18 +54,25 @@ namespace IdleEngine.Sessions
         {
             CalculateProgress(deltaTimeInSeconds);
         }
+        public void Tick(string name, float deltaTimeInSeconds)
+        {
+            CalculateProgress(deltaTimeInSeconds);
+        }
 
-        private double GetCoins(string name)
+        public void GetCoins(UnityEngine.Object obj)
         {
             foreach (var item in Generator)
             {
-                if(item.Name == name)
+                if(item.Name == obj.name)
                 {
-                    Money += item.Collect(); //nicht produce, sondern extra funktion im generator fürs einsammeln der coins
+                    if (item.Earnings > 0)
+                    {
+                        Money += item.Collect(); //nicht produce, sondern extra funktion im generator fürs einsammeln der coins
+                    }
                 }
             }
 
-            return 0;
+            return;
         }
 
         private void CalculateProgress(float deltaTimeInSeconds)

@@ -44,10 +44,10 @@ namespace IdleEngine
             }
 
             var cathomeUi = Instantiate(CatHomeUiPrefab, CatHomeContainer, false);
-            cathomeUi.SetCatHome(generator, canvas);
+            cathomeUi.SetCatHome(generator, Session, canvas);
         }
 
-            private void CreateGeneratorUis()
+        private void CreateGeneratorUis()
         {
             if (!Session)
             {

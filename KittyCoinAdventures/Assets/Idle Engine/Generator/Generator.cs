@@ -16,6 +16,7 @@ namespace IdleEngine.Generator
             public string Id;
             public int Owned;
             public double Earnings;
+            public int ProductionsLeft = 5;
             public float ProductionCycleInSeconds;
         }
 
@@ -28,6 +29,11 @@ namespace IdleEngine.Generator
         {
             get => _data.Owned;
             set => _data.Owned = value;
+        }
+        public int ProductionsLeft
+        {
+            get => _data.ProductionsLeft;
+            set => _data.ProductionsLeft = value;
         }
 
         public float ProductionCycleInSeconds
@@ -53,10 +59,10 @@ namespace IdleEngine.Generator
 
         //coins
         public int ProductionCount;
-        private int ProductionsLeft;
 
         // 0..1
         public float ProductionCycleNormalized => ProductionCycleInSeconds / ProductionTimeInSeconds;
+        public float ProductionsLeftNormalized => Math.Abs(5 - ProductionsLeft) / 5f;
 
         [NonSerialized]
         public float ProductionTimeInSeconds;
@@ -70,7 +76,6 @@ namespace IdleEngine.Generator
         private void OnEnable()
         {
             _data = new RuntimeData();
-            ProductionsLeft = 5;//ProductionCount;
             Precalculate();
         }
 
@@ -93,9 +98,19 @@ namespace IdleEngine.Generator
 
         public double Collect()
         {
-            ProductionsLeft = 5; //ProductionCount;
-            double temp = Earnings;
-            Earnings = 0;
+            double temp = 0;
+            int cycletemp = 0;
+
+            while (ProductionsLeft < 5) //Production Count
+            {
+                ProductionsLeft++;
+                temp += BaseRevenue;
+                Earnings -= BaseRevenue;
+                cycletemp++;
+            }
+
+            Debug.Log(cycletemp);
+
             return temp;
         }
 
@@ -209,6 +224,8 @@ namespace IdleEngine.Generator
             {
                 Owned = Owned,
                 ProductionCycleInSeconds = ProductionCycleInSeconds,
+                Earnings = Earnings,
+                ProductionsLeft = ProductionsLeft,
                 Id = name
             };
         }
