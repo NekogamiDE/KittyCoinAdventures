@@ -12,6 +12,7 @@ namespace IdleEngine.Sessions
         [Serializable]
         public class RuntimeData
         {
+            public double GeneratedMoney;
             public double Money;
             public long LastTicks;
         }
@@ -25,6 +26,12 @@ namespace IdleEngine.Sessions
         private RuntimeData _data = new();
 
         public Generator.Generator[] Generator;
+
+        public double GeneratedMoney
+        {
+            get => _data.GeneratedMoney;
+            set => _data.GeneratedMoney = value;
+        }
 
         public double Money
         {
@@ -45,12 +52,39 @@ namespace IdleEngine.Sessions
 
         public void Tick(float deltaTimeInSeconds)
         {
-            Money += CalculateProgress(deltaTimeInSeconds);
+            CalculateProgress(deltaTimeInSeconds);
         }
 
-        private double CalculateProgress(float deltaTimeInSeconds)
+        private double GetCoins(string name)
         {
-            return Generator == null ? 0 : Generator.Sum(generator => generator.Produce(deltaTimeInSeconds));
+            foreach (var item in Generator)
+            {
+                if(item.Name == name)
+                {
+                    Money += item.Collect(); //nicht produce, sondern extra funktion im generator fürs einsammeln der coins
+                }
+            }
+
+            return 0;
+        }
+
+        private void CalculateProgress(float deltaTimeInSeconds)
+        {
+            foreach (var item in Generator)
+            {
+                int temp = item.Produce(deltaTimeInSeconds);
+
+                if (temp == 1)
+                {
+                    GeneratedMoney += item.Earnings;
+                }
+                else if(temp == 2)
+                {
+                    //Debug.Log(item.Name + " Ist voll!");
+                }
+            }
+
+            return;
         }
 
         public void CalculateOfflineProgression()

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Kitty
   m_EditorClassIdentifier: 
   BaseCost: 5
-  BaseRevenue: 0.25
+  BaseRevenue: 1.5
   BaseProductionTimeInSeconds: 3
   CostFactor: 1.4
   Multipliers: []

@@ -15,12 +15,14 @@ namespace IdleEngine.Generator
         {
             public string Id;
             public int Owned;
+            public double Earnings;
             public float ProductionCycleInSeconds;
         }
 
         private RuntimeData _data = new RuntimeData();
 
         private double _multiplier;
+        
 
         public int Owned
         {
@@ -34,13 +36,24 @@ namespace IdleEngine.Generator
             set => _data.ProductionCycleInSeconds = value;
         }
 
+        public double Earnings
+        {
+            get => _data.Earnings;
+            set => _data.Earnings = value;
+        }
+
         public double BaseCost;
         public double BaseRevenue;
         public float BaseProductionTimeInSeconds;
+        
         public double CostFactor;
         public Multiplier[] Multipliers;
         public string Name;
         public Sprite Image;
+
+        //coins
+        public int ProductionCount;
+        private int ProductionsLeft;
 
         // 0..1
         public float ProductionCycleNormalized => ProductionCycleInSeconds / ProductionTimeInSeconds;
@@ -57,6 +70,7 @@ namespace IdleEngine.Generator
         private void OnEnable()
         {
             _data = new RuntimeData();
+            ProductionsLeft = 5;//ProductionCount;
             Precalculate();
         }
 
@@ -77,15 +91,23 @@ namespace IdleEngine.Generator
             Precalculate();
         }
 
-        public double Produce(float deltaTimeInSeconds)
+        public double Collect()
+        {
+            ProductionsLeft = 5; //ProductionCount;
+            double temp = Earnings;
+            Earnings = 0;
+            return temp;
+        }
+
+        public int Produce(float deltaTimeInSeconds)
         {
             var productionCycleInSeconds = ProductionCycleInSeconds;
-            var result = Produce(deltaTimeInSeconds, ref productionCycleInSeconds);
+            int result = Produce(deltaTimeInSeconds, ref productionCycleInSeconds);
             ProductionCycleInSeconds = productionCycleInSeconds;
             return result;
         }
 
-        private double Produce(float deltaTimeInSeconds, ref float productionCycleInSeconds)
+        private int Produce(float deltaTimeInSeconds, ref float productionCycleInSeconds)
         {
             if (Owned == 0)
             {
@@ -94,20 +116,35 @@ namespace IdleEngine.Generator
 
             productionCycleInSeconds += deltaTimeInSeconds;
 
-            double calculatedSum = 0;
-
-            while (productionCycleInSeconds >= ProductionTimeInSeconds)
+            if (ProductionsLeft == 0)
             {
-                calculatedSum += BaseRevenue * Owned * _multiplier;
-                productionCycleInSeconds -= ProductionTimeInSeconds;
+                productionCycleInSeconds = 0;
+                return 2;
             }
 
-            return calculatedSum;
+            if(productionCycleInSeconds < 0 && productionCycleInSeconds <= -ProductionTimeInSeconds && ProductionsLeft > 0)
+            {
+                Earnings += -BaseRevenue * Owned * _multiplier;
+                productionCycleInSeconds += ProductionTimeInSeconds;
+                ProductionsLeft--;
+                return 1;
+            }
+
+            if(productionCycleInSeconds >= ProductionTimeInSeconds && ProductionsLeft > 0)
+            {
+                Earnings += BaseRevenue * Owned * _multiplier;
+                productionCycleInSeconds -= ProductionTimeInSeconds;
+                ProductionsLeft--;
+                return 1;
+            }
+
+            return 0;
         }
 
         private void Precalculate()
         {
-            //UpdateModifiers();
+            
+            UpdateModifiers();
             UpdateMultiplier();
             UpdateNextBuildingCosts();
             UpdateMoneyPerMinute();
@@ -115,9 +152,16 @@ namespace IdleEngine.Generator
 
         private void UpdateMoneyPerMinute()
         {
-            var productionCycleInSeconds = 0f;
-            MoneyPerMinute = this.BaseRevenue / 60.0 * ProductionTimeInSeconds;
-            //MoneyPerMinute = Produce(60, ref productionCycleInSeconds);
+            //var productionCycleInSeconds = 0f;
+            //MoneyPerMinute = this.BaseRevenue / 60.0 * ProductionTimeInSeconds;
+            float mpmcycle = 60f;
+            double sum = 0;
+            while(mpmcycle >= ProductionTimeInSeconds)
+            {
+                sum += BaseRevenue * Owned *_multiplier;
+                mpmcycle -= ProductionTimeInSeconds;
+            }
+            MoneyPerMinute = sum; //(60, ref productionCycleInSeconds);
         }
 
         private void UpdateNextBuildingCosts()
@@ -139,7 +183,7 @@ namespace IdleEngine.Generator
 
             if (Owned > 10)
             {
-                ProductionTimeInSeconds /= 2;
+                //ProductionTimeInSeconds /= 2;
             }
         }
 

@@ -18,15 +18,22 @@ namespace IdleEngine.UserInterface
 
         private Generator.Generator _generator;
         private Session _session;
+        private MultipleCanvasController _controller;
 
-        public void SetGenerator(Generator.Generator generator, Session session)
+        public void SetGenerator(Generator.Generator generator, Session session, MultipleCanvasController controller)
         {
             _session = session;
             _generator = generator;
+            _controller = controller;
 
-            CatImage.sprite = generator.Image;
+            CatImage.sprite = _generator.Image;
             //CatNameText.text = generator.GetInstanceID().ToString();
-            CatNameText.text = generator.Name;
+            CatNameText.text = _generator.Name;
+        }
+
+        public void CatVisit_BtnClick()
+        {
+            _controller.CatHome_GoToBtn_Click(_generator);
         }
 
         public void Buy()
@@ -49,8 +56,8 @@ namespace IdleEngine.UserInterface
             NextCostText.text = _generator.NextBuildingCostsForOne.Normal();
             LevelText.text = _generator.Owned.ToString();
             ProgressionImage.fillAmount = _generator.ProductionCycleNormalized;
-            BuyButton.interactable = _generator.CanBeBuild(_session);
             IncomePerMinuteText.text = $"{_generator.MoneyPerMinute.Normal()}/m";
+            BuyButton.interactable = _generator.CanBeBuild(_session);
         }
     }
 }

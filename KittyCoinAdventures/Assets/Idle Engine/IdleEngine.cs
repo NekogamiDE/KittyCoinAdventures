@@ -11,18 +11,24 @@ namespace IdleEngine
 {
     public class IdleEngine : MonoBehaviour
     {
+        public MultipleCanvasController canvas;
         public Session Session;
         public GeneratorUi GeneratorUiPrefab;
         public Transform GeneratorContainer;
+        public CatHomeUi CatHomeUiPrefab;
+        public Transform CatHomeContainer;
         public TextMeshProUGUI CoinsText;
+
 
         private void Awake()
         {
-            ClearGenerators();
+            ClearGeneratorUis();
             CreateGeneratorUis();
+
+            canvas.Idle_GoToBtn_Click();
         }
 
-        private void ClearGenerators()
+        private void ClearGeneratorUis()
         {
             for (var i = GeneratorContainer.childCount - 1; i >= 0; i--)
             {
@@ -30,7 +36,18 @@ namespace IdleEngine
             }
         }
 
-        private void CreateGeneratorUis()
+        public void CreateCatHomeUi(Generator.Generator generator)
+        {
+            for (var i = CatHomeContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(CatHomeContainer.GetChild(i).gameObject);
+            }
+
+            var cathomeUi = Instantiate(CatHomeUiPrefab, CatHomeContainer, false);
+            cathomeUi.SetCatHome(generator, canvas);
+        }
+
+            private void CreateGeneratorUis()
         {
             if (!Session)
             {
@@ -40,7 +57,7 @@ namespace IdleEngine
             foreach (var generator in Session.Generator)
             {
                 var generatorUi = Instantiate(GeneratorUiPrefab, GeneratorContainer, false);
-                generatorUi.SetGenerator(generator, Session);
+                generatorUi.SetGenerator(generator, Session, canvas);
             }
         }
 
