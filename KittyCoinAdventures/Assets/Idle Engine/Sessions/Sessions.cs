@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using IdleEngine.Generator;
+using IdleEngine.Cosmetic;
 using IdleEngine.SaveSystem;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ namespace IdleEngine.Sessions
         private RuntimeData _data = new();
 
         public Generator.Generator[] Generator;
+        public Cosmetic.Cosmetic[] Cosmetic;
 
         public double GeneratedMoney
         {
@@ -51,10 +53,6 @@ namespace IdleEngine.Sessions
         }
 
         public void Tick(float deltaTimeInSeconds)
-        {
-            CalculateProgress(deltaTimeInSeconds);
-        }
-        public void Tick(string name, float deltaTimeInSeconds)
         {
             CalculateProgress(deltaTimeInSeconds);
         }

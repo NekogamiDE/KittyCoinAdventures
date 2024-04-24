@@ -18,6 +18,7 @@ namespace IdleEngine.Generator
             public double Earnings;
             public int ProductionsLeft = 5;
             public float ProductionCycleInSeconds;
+            public Cosmetic.Cosmetic Cosmetic;
         }
 
         private RuntimeData _data = new RuntimeData();
@@ -47,6 +48,11 @@ namespace IdleEngine.Generator
             get => _data.Earnings;
             set => _data.Earnings = value;
         }
+        public Cosmetic.Cosmetic Cosmetic
+        {
+            get => _data.Cosmetic;
+            set => _data.Cosmetic = value;
+        }
 
         public double BaseCost;
         public double BaseRevenue;
@@ -55,10 +61,10 @@ namespace IdleEngine.Generator
         public double CostFactor;
         public Multiplier[] Multipliers;
         public string Name;
-        public Sprite Image;
+        public Sprite CatImage;
 
         //coins
-        public int ProductionCount;
+        public int ProductionCount = 5;
 
         // 0..1
         public float ProductionCycleNormalized => ProductionCycleInSeconds / ProductionTimeInSeconds;
@@ -76,7 +82,20 @@ namespace IdleEngine.Generator
         private void OnEnable()
         {
             _data = new RuntimeData();
+            //ProductionsLeft = ProductionCount + ProductionsLeft - ProductionCount;
             Precalculate();
+        }
+
+        public void DetachCosmetic()
+        {
+            Cosmetic = null;
+        }
+
+        public void AttachCosmetic(Cosmetic.Cosmetic cosmetic)
+        {
+            DetachCosmetic();
+
+            Cosmetic = cosmetic;
         }
 
         public bool CanBeBuild(Session session)

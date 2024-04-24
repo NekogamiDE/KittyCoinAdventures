@@ -1,3 +1,4 @@
+using IdleEngine.Cosmetic;
 using IdleEngine.Sessions;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace IdleEngine.UserInterface
         public Image ProgressionImage;
         public Button BuyButton;
         public Image CatImage;
+        public Image CosmeticImage;
         public Button BackButton;
         //public Button VisitButton;
 
@@ -29,10 +31,18 @@ namespace IdleEngine.UserInterface
 
             this.name = _generator.name;
             //CatNameText.text = catname;
-            CatImage.sprite = _generator.Image;
+            CatImage.sprite = _generator.CatImage;
+            //CosmeticImage.sprite = _generator.Cosmetic.Image;
 
             BackButton.onClick.AddListener(() => _controller.CatHome_BackBtn_Click());
         }
+
+        public void CosmeticChange(Cosmetic.Cosmetic cosmetic)
+        {
+            CosmeticImage.sprite = cosmetic.Image;
+            _generator.AttachCosmetic(cosmetic);
+        }
+
         public void Buy()
         {
             _generator.Build(_session);

@@ -15,6 +15,8 @@ namespace IdleEngine
         public Session Session;
         public GeneratorUi GeneratorUiPrefab;
         public Transform GeneratorContainer;
+        public ShopUi ShopUiPrefab;
+        public Transform ShopItemContainer;
         public CatHomeUi CatHomeUiPrefab;
         public Transform CatHomeContainer;
         public TextMeshProUGUI CoinsText;
@@ -22,19 +24,58 @@ namespace IdleEngine
 
         private void Awake()
         {
-            ClearGeneratorUis();
             CreateGeneratorUis();
-
             canvas.Idle_GoToBtn_Click();
         }
 
-        private void ClearGeneratorUis()
+        public void CreateShopCosmeticUi()
         {
-            for (var i = GeneratorContainer.childCount - 1; i >= 0; i--)
+            if (!Session)
             {
-                Destroy(GeneratorContainer.GetChild(i).gameObject);
+                return;
+            }
+
+            for (var i = ShopItemContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(ShopItemContainer.GetChild(i).gameObject);
+            }
+
+            foreach (var cosmetic in Session.Cosmetic)
+            {
+                var shopUi = Instantiate(ShopUiPrefab, ShopItemContainer, false);
+                shopUi.SetShopCosmetic(cosmetic, Session, canvas);
             }
         }
+
+        public void ShopCosmeticBtn_Click()
+        {
+            CreateShopCosmeticUi();
+        }
+
+
+        public void CreateShopCatUi()
+        {
+            if (!Session)
+            {
+                return;
+            }
+
+            for (var i = ShopItemContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(ShopItemContainer.GetChild(i).gameObject);
+            }
+
+            foreach (var generator in Session.Generator)
+            {
+                var shopUi = Instantiate(ShopUiPrefab, ShopItemContainer, false);
+                shopUi.SetShopCat(generator, Session, canvas);
+            }
+        }
+        public void ShopCatBtn_Click()
+        {
+            CreateShopCatUi();
+        }
+
 
         public void CreateCatHomeUi(Generator.Generator generator)
         {
@@ -47,8 +88,18 @@ namespace IdleEngine
             cathomeUi.SetCatHome(generator, Session, canvas);
         }
 
-        private void CreateGeneratorUis()
+        private void ClearGeneratorUis()
         {
+            for (var i = GeneratorContainer.childCount - 1; i >= 0; i--)
+            {
+                Destroy(GeneratorContainer.GetChild(i).gameObject);
+            }
+        }
+
+        public void CreateGeneratorUis()
+        {
+            ClearGeneratorUis();
+
             if (!Session)
             {
                 return;
@@ -56,8 +107,11 @@ namespace IdleEngine
 
             foreach (var generator in Session.Generator)
             {
-                var generatorUi = Instantiate(GeneratorUiPrefab, GeneratorContainer, false);
-                generatorUi.SetGenerator(generator, Session, canvas);
+                if (generator.Owned > 0)
+                {
+                    var generatorUi = Instantiate(GeneratorUiPrefab, GeneratorContainer, false);
+                    generatorUi.SetGenerator(generator, Session, canvas);
+                }
             }
         }
 

@@ -28,7 +28,7 @@ namespace IdleEngine.UserInterface
             _generator = generator;
             _controller = controller;
 
-            CatImage.sprite = _generator.Image;
+            CatImage.sprite = _generator.CatImage;
             //CatNameText.text = generator.GetInstanceID().ToString();
             CatNameText.text = _generator.Name;
         }

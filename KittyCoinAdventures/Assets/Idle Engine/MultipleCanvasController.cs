@@ -25,10 +25,45 @@ namespace IdleEngine
         //hin
         public void Idle_GoToBtn_Click()
         {
+            engine.CreateGeneratorUis();
+
             before_location.Clear();
             current_location = "Idle Canvas";
 
             UpdateLocation();
+
+            return;
+        }
+
+        public void Shop_GoToBtn_Click()
+        {
+            engine.CreateShopCatUi();
+
+            before_location.Add(current_location);
+            current_location = "Shop Canvas";
+
+            for (int i = 0; i < canvaslist.Count; i++)
+            {
+                if (canvaslist[i].name == current_location)
+                {
+                    //canvaslist[i] = null;
+                }
+            }
+
+            UpdateLocation();
+
+            return;
+        }
+
+        //zurück
+        public void Shop_BackBtn_Click()
+        {
+            //-1 evtl. weglassen
+            current_location = before_location[before_location.Count - 1];
+            before_location.RemoveAt(before_location.Count - 1);
+
+            if (current_location == "Idle Canvas")
+                Idle_GoToBtn_Click();
 
             return;
         }
@@ -60,7 +95,8 @@ namespace IdleEngine
             current_location = before_location[before_location.Count - 1];
             before_location.RemoveAt(before_location.Count - 1);
 
-            UpdateLocation();
+            if (current_location == "Idle Canvas")
+                Idle_GoToBtn_Click();
 
             return;
         }
