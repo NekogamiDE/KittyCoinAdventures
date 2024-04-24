@@ -17,7 +17,7 @@ namespace IdleEngine.Cosmetic
         public bool Owned;
         //public string type;
         public string Explanation;
-        public CosmeticAttributes attributes;
+        public string attributes;
 
         public class CosmeticAttributes
         {

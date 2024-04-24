@@ -25,3 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88b3a274f0ee64f4ab797558ae629f4e, type: 2}
   - {fileID: 11400000, guid: c445341d648fe1843829b6f6b8e2067b, type: 2}
   - {fileID: 11400000, guid: 63b4ee6a0f3de1a45b1bd8057e60e3bd, type: 2}
+  Cosmetic:
+  - {fileID: 11400000, guid: b345886118563384fa92b02a77947a33, type: 2}
