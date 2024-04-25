@@ -18,4 +18,5 @@ MonoBehaviour:
   CostFactor: 1.5
   Multipliers: []
   Name: Luna
-  Image: {fileID: 21300000, guid: eb1183aa89df5a0419e4f420d8346c40, type: 3}
+  CatImage: {fileID: 21300000, guid: eb1183aa89df5a0419e4f420d8346c40, type: 3}
+  ProductionCount: 5

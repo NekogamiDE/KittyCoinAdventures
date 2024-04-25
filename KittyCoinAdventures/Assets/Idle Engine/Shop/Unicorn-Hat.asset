@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68da9d8a7c7e002488fb34acbbfefa0f, type: 3}
-  m_Name: Flecki
+  m_Script: {fileID: 11500000, guid: 6a697e1e6c9fba541b2a128fe2beb6ca, type: 3}
+  m_Name: Unicorn-Hat
   m_EditorClassIdentifier: 
-  BaseCost: 100
-  BaseRevenue: 10
+  Name: Unikitty-Hat
+  Image: {fileID: 21300000, guid: 8d36c8387c5373b4a81a6b529ad9cb94, type: 3}
+  Price: 0
+  Explanation: The bestest
+  additive: 0
   BaseProductionTimeInSeconds: 2
-  CostFactor: 1.5
-  Multipliers: []
-  Name: Flecki
-  CatImage: {fileID: 21300000, guid: 6c88456bdc8ff6541922c8980b55dcd1, type: 3}
-  ProductionCount: 5
+  BaseRevenue: 2
+  CostFactor: 100
+  ProductionCount: 0

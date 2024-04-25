@@ -39,6 +39,11 @@ namespace IdleEngine
         {
             engine.CreateShopCatUi();
 
+            if(current_location == "Shop Canvas")
+            {
+                return;
+            }
+
             before_location.Add(current_location);
             current_location = "Shop Canvas";
 
@@ -65,12 +70,19 @@ namespace IdleEngine
             if (current_location == "Idle Canvas")
                 Idle_GoToBtn_Click();
 
+            UpdateLocation(); //doppelt hält besser, oder so
+
             return;
         }
 
         public void CatHome_GoToBtn_Click(Generator.Generator generator/*, Image image*/)
         {
             engine.CreateCatHomeUi(generator);
+
+            if (current_location == "CatHome Canvas")
+            {
+                return;
+            }
 
             before_location.Add(current_location);
             current_location = "CatHome Canvas";
@@ -97,6 +109,8 @@ namespace IdleEngine
 
             if (current_location == "Idle Canvas")
                 Idle_GoToBtn_Click();
+
+            UpdateLocation(); //doppelt hält besser, oder so
 
             return;
         }

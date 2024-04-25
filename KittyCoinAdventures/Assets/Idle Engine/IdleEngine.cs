@@ -20,12 +20,11 @@ namespace IdleEngine
         public CatHomeUi CatHomeUiPrefab;
         public Transform CatHomeContainer;
         public TextMeshProUGUI CoinsText;
-
+        public TextMeshProUGUI LevelText;
 
         private void Awake()
         {
-            CreateGeneratorUis();
-            canvas.Idle_GoToBtn_Click();
+            //canvas.Idle_GoToBtn_Click();
         }
 
         public void CreateShopCosmeticUi()
@@ -46,13 +45,10 @@ namespace IdleEngine
                 shopUi.SetShopCosmetic(cosmetic, Session, canvas);
             }
         }
-
         public void ShopCosmeticBtn_Click()
         {
             CreateShopCosmeticUi();
         }
-
-
         public void CreateShopCatUi()
         {
             if (!Session)
@@ -122,6 +118,8 @@ namespace IdleEngine
                 return;
             }
 
+            //Debug.Log(Session.Generator[0].Owned.ToString());
+
             Session.Tick(Time.deltaTime);
         }
 
@@ -132,6 +130,14 @@ namespace IdleEngine
                 return;
             }
 
+            int temp = 0;
+
+            foreach (var generator in Session.Generator)
+            {
+                temp += generator.Owned;
+            }
+
+            LevelText.text = temp.ToString();
             CoinsText.text = Session.Money.Normal();
         }
 
@@ -145,6 +151,8 @@ namespace IdleEngine
             Load();
 
             Session.CalculateOfflineProgression();
+
+            canvas.Idle_GoToBtn_Click(); //muss nach "Session.CalculateOfflineProgression();" kommen, da sonst die Generatorendaten noch nicht geladen werden.
         }
 
         private void OnDisable()

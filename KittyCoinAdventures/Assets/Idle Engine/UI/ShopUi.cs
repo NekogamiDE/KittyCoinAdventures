@@ -113,7 +113,7 @@ namespace IdleEngine.UserInterface
                 else
                 {
                     owned = false;
-                    if (_session.Money >= _generator.NextBuildingCostsForOne)
+                    if (_session.Money >= _cosmetic.Price)
                     {
                         buyButton.interactable = true;
                         priceText.color = Color.white;

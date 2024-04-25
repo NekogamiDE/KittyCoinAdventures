@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using IdleEngine.Cosmetic;
 using IdleEngine.SaveSystem;
 using IdleEngine.Sessions;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace IdleEngine.Generator
             public string Id;
             public int Owned;
             public double Earnings;
-            public int ProductionsLeft = 5;
+            public int ProductionsLeft = 10;
             public float ProductionCycleInSeconds;
             public Cosmetic.Cosmetic Cosmetic;
         }
@@ -57,18 +58,24 @@ namespace IdleEngine.Generator
         public double BaseCost;
         public double BaseRevenue;
         public float BaseProductionTimeInSeconds;
-        
         public double CostFactor;
+
+        private double BaseRevenueOld = 0;
+        private float BaseProductionTimeInSecondsOld = 0;
+        private double CostFactorOld = 0;
+
         public Multiplier[] Multipliers;
         public string Name;
         public Sprite CatImage;
+        public Sprite CatImageEyesClosed;
 
         //coins
-        public int ProductionCount = 5;
+        public int ProductionCount = 10;
+        private int ProductionCountOld = 10;
 
         // 0..1
         public float ProductionCycleNormalized => ProductionCycleInSeconds / ProductionTimeInSeconds;
-        public float ProductionsLeftNormalized => Math.Abs(5 - ProductionsLeft) / 5f;
+        public float ProductionsLeftNormalized => Math.Abs(10 - ProductionsLeft) / 10f;
 
         [NonSerialized]
         public float ProductionTimeInSeconds;
@@ -83,11 +90,52 @@ namespace IdleEngine.Generator
         {
             _data = new RuntimeData();
             //ProductionsLeft = ProductionCount + ProductionsLeft - ProductionCount;
+            AddBuff();
+            Precalculate();
+        }
+
+        private void RemoveBuff()
+        {
+            if (Cosmetic != null)
+            {
+                BaseRevenue = BaseRevenueOld;
+                BaseProductionTimeInSeconds = BaseProductionTimeInSecondsOld;
+                CostFactor = CostFactorOld;
+                ProductionCount = ProductionCountOld;
+                /*ProductionsLeft = ProductionsLeft - Cosmetic.ProductionCount;
+                if(ProductionsLeft < 0)
+                {
+                    ProductionsLeft = 0;
+                }
+                */
+            }
+
+            Precalculate();
+        }
+
+        private void AddBuff()
+        {
+            if (Cosmetic != null)
+            {
+                BaseRevenueOld = BaseRevenue;
+                BaseProductionTimeInSecondsOld = BaseProductionTimeInSeconds;
+                CostFactorOld = CostFactor;
+                ProductionCountOld = ProductionCount;
+
+                BaseRevenue = BaseRevenue * Cosmetic.BaseRevenue;
+                BaseProductionTimeInSeconds = BaseProductionTimeInSeconds * Cosmetic.BaseProductionTimeInSeconds;
+                CostFactor = CostFactor * Cosmetic.CostFactor;
+                ProductionCount = ProductionCount + Cosmetic.ProductionCount;
+                //ProductionsLeft = ProductionsLeft + Cosmetic.ProductionCount;
+            }
+
             Precalculate();
         }
 
         public void DetachCosmetic()
         {
+            RemoveBuff();
+
             Cosmetic = null;
         }
 
@@ -96,6 +144,8 @@ namespace IdleEngine.Generator
             DetachCosmetic();
 
             Cosmetic = cosmetic;
+
+            AddBuff();
         }
 
         public bool CanBeBuild(Session session)
@@ -120,7 +170,7 @@ namespace IdleEngine.Generator
             double temp = 0;
             int cycletemp = 0;
 
-            while (ProductionsLeft < 5) //Production Count
+            while (ProductionsLeft < 10) //Production Count
             {
                 ProductionsLeft++;
                 temp += BaseRevenue;
@@ -136,8 +186,11 @@ namespace IdleEngine.Generator
         public int Produce(float deltaTimeInSeconds)
         {
             var productionCycleInSeconds = ProductionCycleInSeconds;
-            int result = Produce(deltaTimeInSeconds, ref productionCycleInSeconds);
+            int result = 0;
+
+            result = Produce(deltaTimeInSeconds, ref productionCycleInSeconds);
             ProductionCycleInSeconds = productionCycleInSeconds;
+
             return result;
         }
 
@@ -245,8 +298,9 @@ namespace IdleEngine.Generator
                 ProductionCycleInSeconds = ProductionCycleInSeconds,
                 Earnings = Earnings,
                 ProductionsLeft = ProductionsLeft,
-                Id = name
-            };
+                Id = name,
+                Cosmetic = Cosmetic
+    };
         }
 
         public void SetRestorableData(RuntimeData data)

@@ -15,8 +15,8 @@ MonoBehaviour:
   BaseCost: 5
   BaseRevenue: 1
   BaseProductionTimeInSeconds: 0.2
-  ProductionCount: 0
   CostFactor: 1.5
   Multipliers: []
   Name: Muffin
-  Image: {fileID: 21300000, guid: d3aa00a88f84f554f8e331d3027a58aa, type: 3}
+  CatImage: {fileID: 21300000, guid: d3aa00a88f84f554f8e331d3027a58aa, type: 3}
+  ProductionCount: 0
