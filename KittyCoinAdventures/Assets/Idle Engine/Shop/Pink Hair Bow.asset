@@ -15,14 +15,14 @@ MonoBehaviour:
   Name: Pink Hair Bow
   Image: {fileID: 21300000, guid: 762cf5efbf1c0264da04639b16f4fa41, type: 3}
   Price: 5000
-  Description: '"Quote"
+  Description: 'A simple pink bow. Makes your cat 100% cuter
 
-    Production Time + 900%
+    Production Time
+    + 900%
 
     Earnings + 100%
 
-    Cost
-    Factor + 0%'
+    Cost Factor + 0%'
   BaseProductionTimeInSeconds: 10
   BaseRevenue: 2
   CostFactor: 1

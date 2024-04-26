@@ -15,14 +15,14 @@ MonoBehaviour:
   Name: Blue Hair Bow
   Image: {fileID: 21300000, guid: f67bdf77d211a114696fca79070d9016, type: 3}
   Price: 10000
-  Description: '"Quote"
+  Description: 'A simple blue bow. Makes your cat 100% cuter
 
-    Production Time + 900%
+    Production Time
+    + 900%
 
     Earnings + 260%
 
-    Cost
-    Factor + 0%'
+    Cost Factor + 0%'
   BaseProductionTimeInSeconds: 10
   BaseRevenue: 3.6
   CostFactor: 1

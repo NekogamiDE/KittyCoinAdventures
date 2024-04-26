@@ -26,7 +26,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9cff310191b9e1d4581e44762b145c55, type: 2}
   - {fileID: 11400000, guid: 63b4ee6a0f3de1a45b1bd8057e60e3bd, type: 2}
   Cosmetic:
-  - {fileID: 11400000, guid: b345886118563384fa92b02a77947a33, type: 2}
   - {fileID: 11400000, guid: 5a0f14cc24c09d04fae976cfc73b4436, type: 2}
   - {fileID: 11400000, guid: 7c08912c9699f1f44bda3968fe92dafe, type: 2}
   - {fileID: 11400000, guid: 41b3c877a5cf0ae46826477cef490c5e, type: 2}
+  - {fileID: 11400000, guid: b345886118563384fa92b02a77947a33, type: 2}

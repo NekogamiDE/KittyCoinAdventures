@@ -15,7 +15,8 @@ MonoBehaviour:
   Name: Fish Crown
   Image: {fileID: 21300000, guid: 8bf45d5b4251b324bb13d3972778f598, type: 3}
   Price: 500000
-  Description: '"Quote"
+  Description: 'A crown, fitting for the noblest of all species. Grants your cat
+    the royal authority it deserves
 
     Production Time + 700%
 

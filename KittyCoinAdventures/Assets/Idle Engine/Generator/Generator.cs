@@ -241,7 +241,7 @@ namespace IdleEngine.Generator
             UpdateMoneyPerMinute();
         }
 
-        private void UpdateMoneyPerMinute()
+        public void UpdateMoneyPerMinute()
         {
             //var productionCycleInSeconds = 0f;
             //MoneyPerMinute = this.BaseRevenue / 60.0 * ProductionTimeInSeconds;

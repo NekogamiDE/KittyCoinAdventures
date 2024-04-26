@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Unikitty Hat
   Image: {fileID: 21300000, guid: 8d36c8387c5373b4a81a6b529ad9cb94, type: 3}
-  Price: 320
-  Description: '"Quote"
+  Price: 1250000
+  Description: 'Equip your cats with the legendary horn of the Unikitty, boasting
+    unfathomable strength
 
     Production Time - 30%
 
     Earnings + 0%
 
-    Cost Factor
-    + 5%'
+    Cost
+    Factor + 5%'
   BaseProductionTimeInSeconds: 0.7
   BaseRevenue: 1
   CostFactor: 1.05

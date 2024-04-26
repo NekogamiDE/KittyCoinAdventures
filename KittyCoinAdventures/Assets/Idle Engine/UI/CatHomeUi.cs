@@ -115,6 +115,8 @@ namespace IdleEngine.UserInterface
             _controller = controller;
             //CosmeticImage.maskable = false;
 
+            _generator.UpdateMoneyPerMinute();
+
             this.name = _generator.name;
             CatNameText.text = _generator.Name;
             //CatNameText.text = catname;
