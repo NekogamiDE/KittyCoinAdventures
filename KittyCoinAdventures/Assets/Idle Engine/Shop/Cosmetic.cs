@@ -3,6 +3,7 @@ using IdleEngine.Sessions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,10 +39,9 @@ namespace IdleEngine.Cosmetic
         public Sprite Image;
         public double Price;
         //public string type;
-        public string Explanation;
+        [TextArea] public string Description;
 
         //Attributes (Prozent)
-        public bool additive;
         public float BaseProductionTimeInSeconds;
         public float BaseRevenue;
         public float CostFactor;

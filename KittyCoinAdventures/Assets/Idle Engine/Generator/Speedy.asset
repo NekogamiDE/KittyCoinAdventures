@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseCost: 100000000000
   BaseRevenue: 20000000
-  BaseProductionTimeInSeconds: 40
+  BaseProductionTimeInSeconds: 40000
   CostFactor: 1.2
   Multipliers: []
   Name: Speedy
   CatImage: {fileID: 21300000, guid: 804efb2c2ce94af4d855894dee36f2fa, type: 3}
+  CatImageEyesClosed: {fileID: 0}
   ProductionCount: 5

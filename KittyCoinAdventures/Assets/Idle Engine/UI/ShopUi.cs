@@ -3,7 +3,6 @@ using IdleEngine.Sessions;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +14,7 @@ namespace IdleEngine.UserInterface
         public TextMeshProUGUI priceText;
         public Image itemImage; 
         public TextMeshProUGUI explanationText;
+        public Image explanationBackground;
         public Button buyButton;
         public bool owned;
 
@@ -33,13 +33,31 @@ namespace IdleEngine.UserInterface
             itemImage.sprite = _generator.CatImage;
             itemnameText.text = _generator.Name;
             priceText.text = _generator.BaseCost.ToString();
-            //explanationText.text = "";
+            explanationText.text = "";
 
             type = "Cat";
+
+            explanationText.enabled = false;
+            explanationBackground.enabled = false;
 
             //BackButton.onClick.AddListener(() => controller.Shop_BackBtn_Click());
 
             //ShopUiUpdate();
+        }
+
+        public void ShowDescription()
+        {
+            if (explanationText.text != "")
+            {
+                explanationText.enabled = true;
+                explanationBackground.enabled = true;
+            }
+        }
+
+        public void HideDescription()
+        {
+            explanationText.enabled = false;
+            explanationBackground.enabled = false;
         }
 
         public void SetShopCosmetic(Cosmetic.Cosmetic cosmetic, Session session, MultipleCanvasController controller)
@@ -51,10 +69,13 @@ namespace IdleEngine.UserInterface
             itemImage.sprite = _cosmetic.Image;
             itemnameText.text = _cosmetic.Name;
             priceText.text = _cosmetic.Price.ToString();
-            //explanationText.text = _cosmetic.Explanation;
+            explanationText.text = _cosmetic.Description;
 
             type = "Cosmetic";
             owned = _cosmetic.Owned;
+
+            explanationText.enabled = false;
+            explanationBackground.enabled = false;
 
             //BackButton.onClick.AddListener(() => controller.Shop_BackBtn_Click());
 

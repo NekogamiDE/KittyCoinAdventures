@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68da9d8a7c7e002488fb34acbbfefa0f, type: 3}
   m_Name: "R\xFCdiger"
   m_EditorClassIdentifier: 
-  BaseCost: 100000
-  BaseRevenue: 100
-  BaseProductionTimeInSeconds: 50
-  CostFactor: 1.05
+  BaseCost: 70000
+  BaseRevenue: 100000
+  BaseProductionTimeInSeconds: 3600
+  CostFactor: 1.3
   Multipliers: []
   Name: "R\xFCdiger"
   CatImage: {fileID: 21300000, guid: eaea266c020f0244280c8150449b56b5, type: 3}
+  CatImageEyesClosed: {fileID: 0}
   ProductionCount: 5

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using IdleEngine;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +15,13 @@ namespace IdleEngine
         public List<Canvas> canvaslist = new List<Canvas>();
         public IdleEngine engine;
 
-
+        //Help
+        public Image HelpBackground;
+        public TextMeshProUGUI HelpText;
+        public Sprite OpenHelpButton;
+        public Sprite CloseHelpButton;
+        public Button HelpButton;
+        private bool help = false;
 
         private void Start()
         {
@@ -22,13 +30,36 @@ namespace IdleEngine
             UpdateLocation();
         }
 
-        //hin
+        public void ToggleHelpBtn_Click()
+        {
+            help = !help;
+            UpdateHelp(help);
+        }
+        public void UpdateHelp(bool help)
+        {
+            if (help)
+            {
+                HelpBackground.enabled = true;
+                HelpText.enabled = true;
+                HelpButton.image.sprite = CloseHelpButton;
+            }
+            else
+            {
+                HelpBackground.enabled = false;
+                HelpText.enabled = false;
+                HelpButton.image.sprite = OpenHelpButton;
+            }
+        }
+        
         public void Idle_GoToBtn_Click()
         {
             engine.CreateGeneratorUis();
 
             before_location.Clear();
             current_location = "Idle Canvas";
+
+            help = false;
+            UpdateHelp(help);
 
             UpdateLocation();
 

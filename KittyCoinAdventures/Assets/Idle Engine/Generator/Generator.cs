@@ -67,7 +67,7 @@ namespace IdleEngine.Generator
         public Multiplier[] Multipliers;
         public string Name;
         public Sprite CatImage;
-        public Sprite CatImageEyesClosed;
+        //public Sprite CatImageEyesClosed;
 
         //coins
         public int ProductionCount = 10;
@@ -173,8 +173,12 @@ namespace IdleEngine.Generator
             while (ProductionsLeft < 10) //Production Count
             {
                 ProductionsLeft++;
-                temp += BaseRevenue;
-                Earnings -= BaseRevenue;
+                temp += BaseRevenue * Owned * _multiplier;
+                Earnings -= BaseRevenue * Owned * _multiplier;
+                if(Earnings < 0)
+                {
+                    Earnings = 0;
+                }
                 cycletemp++;
             }
 
@@ -256,12 +260,8 @@ namespace IdleEngine.Generator
             var kOverR = Math.Pow(CostFactor, Owned);
             var kPlusNOverR = Math.Pow(CostFactor, Owned + 1);
 
-            NextBuildingCostsForOne = BaseCost *
-                                      (
-                                        (kOverR - kPlusNOverR)
-                                        /
-                                        (1 - CostFactor)
-                                      );
+            NextBuildingCostsForOne = BaseCost * ((kOverR - kPlusNOverR) / (1 - CostFactor));
+            NextBuildingCostsForOne = Math.Floor(NextBuildingCostsForOne);
         }
 
         private void UpdateModifiers()

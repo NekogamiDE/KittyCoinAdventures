@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68da9d8a7c7e002488fb34acbbfefa0f, type: 3}
   m_Name: Minny
   m_EditorClassIdentifier: 
-  BaseCost: 4
-  BaseRevenue: 1
-  BaseProductionTimeInSeconds: 20
+  BaseCost: 250000
+  BaseRevenue: 17250
+  BaseProductionTimeInSeconds: 30
   CostFactor: 1.4
   Multipliers: []
   Name: Minny
   CatImage: {fileID: 21300000, guid: ebf0093f5b1bbc34d913004aef3e6f15, type: 3}
+  CatImageEyesClosed: {fileID: 0}
   ProductionCount: 5

@@ -6,6 +6,7 @@ using IdleEngine.UserInterface;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace IdleEngine
 {
@@ -21,6 +22,8 @@ namespace IdleEngine
         public Transform CatHomeContainer;
         public TextMeshProUGUI CoinsText;
         public TextMeshProUGUI LevelText;
+
+
 
         private void Awake()
         {
@@ -72,7 +75,6 @@ namespace IdleEngine
             CreateShopCatUi();
         }
 
-
         public void CreateCatHomeUi(Generator.Generator generator)
         {
             for (var i = CatHomeContainer.childCount - 1; i >= 0; i--)
@@ -120,6 +122,9 @@ namespace IdleEngine
 
             //Debug.Log(Session.Generator[0].Owned.ToString());
 
+            //CoinsText.text = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            //CoinsText.text = System.IO.Path.Combine(Application.persistentDataPath, "Saves");
+
             Session.Tick(Time.deltaTime);
         }
 
@@ -137,11 +142,16 @@ namespace IdleEngine
                 temp += generator.Owned;
             }
 
-            LevelText.text = temp.ToString();
-            CoinsText.text = Session.Money.Normal();
+            LevelText.text = temp.ToString();//SaveFileManager.HomeRoot;
+            CoinsText.text = Math.Floor(Session.Money).ToString();
         }
 
         private void OnEnable()
+        {
+            Enable();
+        }
+
+        private void Enable()
         {
             if (!Session)
             {
@@ -155,8 +165,25 @@ namespace IdleEngine
             canvas.Idle_GoToBtn_Click(); //muss nach "Session.CalculateOfflineProgression();" kommen, da sonst die Generatorendaten noch nicht geladen werden.
         }
 
+        //private void OnApplicationFocus(bool focus)
+        //{
+        //    if(focus)
+        //    {
+        //        Enable();
+        //        return;
+        //    }
+
+        //    Disable();
+        //}
+
         private void OnDisable()
         {
+            Disable();
+        }
+
+        private void Disable()
+        {
+
             if (!Session)
             {
                 return;
@@ -165,6 +192,7 @@ namespace IdleEngine
             Session.LastTicks = DateTime.UtcNow.Ticks;
 
             Save();
+
         }
 
         private void Save()
@@ -180,7 +208,9 @@ namespace IdleEngine
             if (!SaveFileManager.TryLoad(Session.name, out var content))
             {
                 // Neues Spiel wurde angefangen
+                //Tut
                 Session.Money = Session.Generator[0].NextBuildingCostsForOne;
+                Session.Generator[0].Owned = 1;
                 return;
             }
 

@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a697e1e6c9fba541b2a128fe2beb6ca, type: 3}
-  m_Name: Unicorn-Hat
+  m_Name: Blue Hair Bow
   m_EditorClassIdentifier: 
-  Name: Unikitty-Hat
-  Image: {fileID: 21300000, guid: 8d36c8387c5373b4a81a6b529ad9cb94, type: 3}
-  Price: 0
-  Explanation: The bestest
-  additive: 0
-  BaseProductionTimeInSeconds: 2
-  BaseRevenue: 2
-  CostFactor: 100
-  ProductionCount: 0
+  Name: Blue Hair Bow
+  Image: {fileID: 21300000, guid: f67bdf77d211a114696fca79070d9016, type: 3}
+  Price: 10000
+  Description: '"Quote"
+
+    Production Time + 900%
+
+    Earnings + 260%
+
+    Cost
+    Factor + 0%'
+  BaseProductionTimeInSeconds: 10
+  BaseRevenue: 3.6
+  CostFactor: 1
+  ProductionCount: 10

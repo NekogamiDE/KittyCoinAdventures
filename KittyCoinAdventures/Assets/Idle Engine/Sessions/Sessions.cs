@@ -13,7 +13,6 @@ namespace IdleEngine.Sessions
         [Serializable]
         public class RuntimeData
         {
-            public bool Started;
             public double GeneratedMoney;
             public double Money;
             public long LastTicks;
@@ -30,12 +29,6 @@ namespace IdleEngine.Sessions
 
         public Generator.Generator[] Generator;
         public Cosmetic.Cosmetic[] Cosmetic;
-
-        public bool Started
-        {
-            get => _data.Started;
-            set => _data.Started = value;
-        }
 
         public double GeneratedMoney
         {
@@ -58,13 +51,6 @@ namespace IdleEngine.Sessions
         private void OnEnable()
         {
             _data = new RuntimeData();
-
-            if(!Started)
-            {
-                //Tutorial
-                Generator[0].Owned = 1;
-                Started = true;
-            }
         }
 
         public void Tick(float deltaTimeInSeconds)

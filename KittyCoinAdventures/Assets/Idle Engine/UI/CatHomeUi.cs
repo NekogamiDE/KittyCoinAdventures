@@ -3,7 +3,6 @@ using IdleEngine.Sessions;
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -121,7 +120,7 @@ namespace IdleEngine.UserInterface
             //CatNameText.text = catname;
             CatImage.sprite = _generator.CatImage;
             Cat = _generator.CatImage;
-            CatEyesClosed = _generator.CatImageEyesClosed;
+            //CatEyesClosed = _generator.CatImageEyesClosed;
 
             if (_generator.Cosmetic != null)
             {
