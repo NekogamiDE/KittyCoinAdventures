@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using IdleEngine.Generator;
+using IdleEngine.Cosmetic;
 using IdleEngine.SaveSystem;
 using UnityEngine;
 
@@ -21,11 +22,13 @@ namespace IdleEngine.Sessions
         public class SaveData : RuntimeData
         {
             public Generator.Generator.RuntimeData[] Generator;
+            public Cosmetic.Cosmetic.RuntimeData[] Cosmetic;
         }
 
         private RuntimeData _data = new();
 
         public Generator.Generator[] Generator;
+        public Cosmetic.Cosmetic[] Cosmetic;
 
         public double GeneratedMoney
         {
@@ -55,17 +58,20 @@ namespace IdleEngine.Sessions
             CalculateProgress(deltaTimeInSeconds);
         }
 
-        private double GetCoins(string name)
+        public void GetCoins(UnityEngine.Object obj)
         {
             foreach (var item in Generator)
             {
-                if(item.Name == name)
+                if(item.Name == obj.name)
                 {
-                    Money += item.Collect(); //nicht produce, sondern extra funktion im generator fürs einsammeln der coins
+                    if (item.Earnings > 0)
+                    {
+                        Money += item.Collect(); //nicht produce, sondern extra funktion im generator fürs einsammeln der coins
+                    }
                 }
             }
 
-            return 0;
+            return;
         }
 
         private void CalculateProgress(float deltaTimeInSeconds)
@@ -109,7 +115,8 @@ namespace IdleEngine.Sessions
             {
                 Money = Money,
                 LastTicks = LastTicks,
-                Generator = Generator.Select(generator => generator.GetRestorableData()).ToArray()
+                Generator = Generator.Select(generator => generator.GetRestorableData()).ToArray(),
+                Cosmetic = Cosmetic.Select(cosmetic => cosmetic.GetRestorableData()).ToArray()
             };
         }
 
@@ -120,15 +127,28 @@ namespace IdleEngine.Sessions
 
             foreach (var generator in Generator)
             {
-                var savedGenerator = data.Generator.SingleOrDefault(g => g.Id == generator.name);
+                var savedGenerator = data.Generator.SingleOrDefault(g => g.Id == generator.Name);
 
                 if (savedGenerator is null)
                 {
-                    Debug.LogWarning($"Did not find generator {generator.name} in save game");
+                    Debug.LogWarning($"Did not find generator {generator.Name} in save game");
                     continue;
                 }
 
                 generator.SetRestorableData(savedGenerator);
+            }
+
+            foreach (var cosmetic in Cosmetic)
+            {
+                var savedCosmetic = data.Cosmetic.SingleOrDefault(c => c.Id == cosmetic.name);
+
+                if (savedCosmetic is null)
+                {
+                    Debug.LogWarning($"Did not find cosmetic {cosmetic.name} in save game");
+                    continue;
+                }
+
+                cosmetic.SetRestorableData(savedCosmetic);
             }
         }
     }

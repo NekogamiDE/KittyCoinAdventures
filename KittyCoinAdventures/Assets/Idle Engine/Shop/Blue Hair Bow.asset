@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a697e1e6c9fba541b2a128fe2beb6ca, type: 3}
+  m_Name: Blue Hair Bow
+  m_EditorClassIdentifier: 
+  Name: Blue Hair Bow
+  Image: {fileID: 21300000, guid: f67bdf77d211a114696fca79070d9016, type: 3}
+  Price: 10000
+  Description: '"Quote"
+
+    Production Time + 900%
+
+    Earnings + 260%
+
+    Cost
+    Factor + 0%'
+  BaseProductionTimeInSeconds: 10
+  BaseRevenue: 3.6
+  CostFactor: 1
+  ProductionCount: 10

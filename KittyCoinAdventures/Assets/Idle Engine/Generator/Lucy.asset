@@ -18,4 +18,5 @@ MonoBehaviour:
   CostFactor: 1.5
   Multipliers: []
   Name: Lucy
-  Image: {fileID: 21300000, guid: 6c88456bdc8ff6541922c8980b55dcd1, type: 3}
+  CatImage: {fileID: 21300000, guid: 6c88456bdc8ff6541922c8980b55dcd1, type: 3}
+  ProductionCount: 5

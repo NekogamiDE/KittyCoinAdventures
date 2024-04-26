@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a697e1e6c9fba541b2a128fe2beb6ca, type: 3}
+  m_Name: Fish Crown
+  m_EditorClassIdentifier: 
+  Name: Fish Crown
+  Image: {fileID: 21300000, guid: 8bf45d5b4251b324bb13d3972778f598, type: 3}
+  Price: 500000
+  Description: '"Quote"
+
+    Production Time + 700%
+
+    Earnings + 1900%
+
+    Cost
+    Factor - 5%'
+  BaseProductionTimeInSeconds: 8
+  BaseRevenue: 20
+  CostFactor: 0.95
+  ProductionCount: 10

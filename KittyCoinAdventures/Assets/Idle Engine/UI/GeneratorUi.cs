@@ -8,13 +8,15 @@ namespace IdleEngine.UserInterface
 {
     public class GeneratorUi : MonoBehaviour
     {
-        public TextMeshProUGUI NextCostText;
+        //public TextMeshProUGUI NextCostText;
         public TextMeshProUGUI LevelText;
         public TextMeshProUGUI CatNameText;
-        public TextMeshProUGUI IncomePerMinuteText;
+        public TextMeshProUGUI NextUpgradeCost;
         public Image ProgressionImage;
+        public TextMeshProUGUI EarningsLeftText;
+        public Image EarningsLeftImage;
         public Image CatImage;
-        public Button BuyButton;
+        //public Button BuyButton;
 
         private Generator.Generator _generator;
         private Session _session;
@@ -26,7 +28,7 @@ namespace IdleEngine.UserInterface
             _generator = generator;
             _controller = controller;
 
-            CatImage.sprite = _generator.Image;
+            CatImage.sprite = _generator.CatImage;
             //CatNameText.text = generator.GetInstanceID().ToString();
             CatNameText.text = _generator.Name;
         }
@@ -35,12 +37,7 @@ namespace IdleEngine.UserInterface
         {
             _controller.CatHome_GoToBtn_Click(_generator);
         }
-
-        public void Buy()
-        {
-            _generator.Build(_session);
-        }
-
+        
         private void LateUpdate()
         {
             UpdateUi();
@@ -53,11 +50,21 @@ namespace IdleEngine.UserInterface
                 return;
             }
 
-            NextCostText.text = _generator.NextBuildingCostsForOne.Normal();
+            //NextCostText.text = _generator.NextBuildingCostsForOne.Normal();
             LevelText.text = _generator.Owned.ToString();
             ProgressionImage.fillAmount = _generator.ProductionCycleNormalized;
-            IncomePerMinuteText.text = $"{_generator.MoneyPerMinute.Normal()}/m";
-            BuyButton.interactable = _generator.CanBeBuild(_session);
+            NextUpgradeCost.text = $"{_generator.NextBuildingCostsForOne.Normal()}";
+            if(_session.Money >= _generator.NextBuildingCostsForOne)
+            {
+                NextUpgradeCost.color = Color.white;
+            }
+            else
+            {
+                NextUpgradeCost.color = Color.red;
+            }
+            EarningsLeftImage.fillAmount = _generator.ProductionsLeftNormalized;
+            EarningsLeftText.text = $"{_generator.Earnings}";
+            //BuyButton.interactable = _generator.CanBeBuild(_session);
         }
     }
 }

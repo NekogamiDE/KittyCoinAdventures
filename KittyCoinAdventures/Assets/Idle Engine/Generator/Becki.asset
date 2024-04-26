@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68da9d8a7c7e002488fb34acbbfefa0f, type: 3}
   m_Name: Becki
   m_EditorClassIdentifier: 
-  BaseCost: 10
-  BaseRevenue: 1
-  BaseProductionTimeInSeconds: 2
-  CostFactor: 1.5
+  BaseCost: 1000
+  BaseRevenue: 10000
+  BaseProductionTimeInSeconds: 1000
+  CostFactor: 1.05
   Multipliers: []
   Name: Becki
-  Image: {fileID: 21300000, guid: ce11bb57bfa338b45b88c6dfdf8e1404, type: 3}
+  CatImage: {fileID: 21300000, guid: ce11bb57bfa338b45b88c6dfdf8e1404, type: 3}
+  CatImageEyesClosed: {fileID: 0}
+  ProductionCount: 5

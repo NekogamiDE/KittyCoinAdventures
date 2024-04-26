@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68da9d8a7c7e002488fb34acbbfefa0f, type: 3}
   m_Name: Luna
   m_EditorClassIdentifier: 
-  BaseCost: 116
-  BaseRevenue: 50
-  BaseProductionTimeInSeconds: 20
+  BaseCost: 100000000
+  BaseRevenue: 1000000
+  BaseProductionTimeInSeconds: 8.64
   CostFactor: 1.5
   Multipliers: []
   Name: Luna
-  Image: {fileID: 21300000, guid: eb1183aa89df5a0419e4f420d8346c40, type: 3}
+  CatImage: {fileID: 21300000, guid: eb1183aa89df5a0419e4f420d8346c40, type: 3}
+  CatImageEyesClosed: {fileID: 0}
+  ProductionCount: 5

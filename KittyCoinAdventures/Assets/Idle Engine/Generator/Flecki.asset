@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseCost: 100
   BaseRevenue: 10
-  BaseProductionTimeInSeconds: 2
+  BaseProductionTimeInSeconds: 5
   CostFactor: 1.5
   Multipliers: []
   Name: Flecki
-  Image: {fileID: 21300000, guid: 4421bdf123803274b996ecd18056bb06, type: 3}
+  CatImage: {fileID: 21300000, guid: b92d3b5bb406842459542631a589a9a2, type: 3}
+  ProductionCount: 5

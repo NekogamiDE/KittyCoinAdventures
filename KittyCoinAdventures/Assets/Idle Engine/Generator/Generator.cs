@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using IdleEngine.Cosmetic;
 using IdleEngine.SaveSystem;
 using IdleEngine.Sessions;
 using UnityEngine;
@@ -16,7 +17,9 @@ namespace IdleEngine.Generator
             public string Id;
             public int Owned;
             public double Earnings;
+            public int ProductionsLeft = 10;
             public float ProductionCycleInSeconds;
+            public Cosmetic.Cosmetic Cosmetic;
         }
 
         private RuntimeData _data = new RuntimeData();
@@ -28,6 +31,11 @@ namespace IdleEngine.Generator
         {
             get => _data.Owned;
             set => _data.Owned = value;
+        }
+        public int ProductionsLeft
+        {
+            get => _data.ProductionsLeft;
+            set => _data.ProductionsLeft = value;
         }
 
         public float ProductionCycleInSeconds
@@ -41,22 +49,33 @@ namespace IdleEngine.Generator
             get => _data.Earnings;
             set => _data.Earnings = value;
         }
+        public Cosmetic.Cosmetic Cosmetic
+        {
+            get => _data.Cosmetic;
+            set => _data.Cosmetic = value;
+        }
 
         public double BaseCost;
         public double BaseRevenue;
         public float BaseProductionTimeInSeconds;
-        
         public double CostFactor;
+
+        private double BaseRevenueOld = 0;
+        private float BaseProductionTimeInSecondsOld = 0;
+        private double CostFactorOld = 0;
+
         public Multiplier[] Multipliers;
         public string Name;
-        public Sprite Image;
+        public Sprite CatImage;
+        //public Sprite CatImageEyesClosed;
 
         //coins
-        public int ProductionCount;
-        private int ProductionsLeft;
+        public int ProductionCount = 10;
+        private int ProductionCountOld = 10;
 
         // 0..1
         public float ProductionCycleNormalized => ProductionCycleInSeconds / ProductionTimeInSeconds;
+        public float ProductionsLeftNormalized => Math.Abs(10 - ProductionsLeft) / 10f;
 
         [NonSerialized]
         public float ProductionTimeInSeconds;
@@ -70,8 +89,63 @@ namespace IdleEngine.Generator
         private void OnEnable()
         {
             _data = new RuntimeData();
-            ProductionsLeft = 5;//ProductionCount;
+            //ProductionsLeft = ProductionCount + ProductionsLeft - ProductionCount;
+            AddBuff();
             Precalculate();
+        }
+
+        private void RemoveBuff()
+        {
+            if (Cosmetic != null)
+            {
+                BaseRevenue = BaseRevenueOld;
+                BaseProductionTimeInSeconds = BaseProductionTimeInSecondsOld;
+                CostFactor = CostFactorOld;
+                ProductionCount = ProductionCountOld;
+                /*ProductionsLeft = ProductionsLeft - Cosmetic.ProductionCount;
+                if(ProductionsLeft < 0)
+                {
+                    ProductionsLeft = 0;
+                }
+                */
+            }
+
+            Precalculate();
+        }
+
+        private void AddBuff()
+        {
+            if (Cosmetic != null)
+            {
+                BaseRevenueOld = BaseRevenue;
+                BaseProductionTimeInSecondsOld = BaseProductionTimeInSeconds;
+                CostFactorOld = CostFactor;
+                ProductionCountOld = ProductionCount;
+
+                BaseRevenue = BaseRevenue * Cosmetic.BaseRevenue;
+                BaseProductionTimeInSeconds = BaseProductionTimeInSeconds * Cosmetic.BaseProductionTimeInSeconds;
+                CostFactor = CostFactor * Cosmetic.CostFactor;
+                ProductionCount = ProductionCount + Cosmetic.ProductionCount;
+                //ProductionsLeft = ProductionsLeft + Cosmetic.ProductionCount;
+            }
+
+            Precalculate();
+        }
+
+        public void DetachCosmetic()
+        {
+            RemoveBuff();
+
+            Cosmetic = null;
+        }
+
+        public void AttachCosmetic(Cosmetic.Cosmetic cosmetic)
+        {
+            DetachCosmetic();
+
+            Cosmetic = cosmetic;
+
+            AddBuff();
         }
 
         public bool CanBeBuild(Session session)
@@ -93,17 +167,34 @@ namespace IdleEngine.Generator
 
         public double Collect()
         {
-            ProductionsLeft = 5; //ProductionCount;
-            double temp = Earnings;
-            Earnings = 0;
+            double temp = 0;
+            int cycletemp = 0;
+
+            while (ProductionsLeft < 10) //Production Count
+            {
+                ProductionsLeft++;
+                temp += BaseRevenue * Owned * _multiplier;
+                Earnings -= BaseRevenue * Owned * _multiplier;
+                if(Earnings < 0)
+                {
+                    Earnings = 0;
+                }
+                cycletemp++;
+            }
+
+            Debug.Log(cycletemp);
+
             return temp;
         }
 
         public int Produce(float deltaTimeInSeconds)
         {
             var productionCycleInSeconds = ProductionCycleInSeconds;
-            int result = Produce(deltaTimeInSeconds, ref productionCycleInSeconds);
+            int result = 0;
+
+            result = Produce(deltaTimeInSeconds, ref productionCycleInSeconds);
             ProductionCycleInSeconds = productionCycleInSeconds;
+
             return result;
         }
 
@@ -169,12 +260,8 @@ namespace IdleEngine.Generator
             var kOverR = Math.Pow(CostFactor, Owned);
             var kPlusNOverR = Math.Pow(CostFactor, Owned + 1);
 
-            NextBuildingCostsForOne = BaseCost *
-                                      (
-                                        (kOverR - kPlusNOverR)
-                                        /
-                                        (1 - CostFactor)
-                                      );
+            NextBuildingCostsForOne = BaseCost * ((kOverR - kPlusNOverR) / (1 - CostFactor));
+            NextBuildingCostsForOne = Math.Floor(NextBuildingCostsForOne);
         }
 
         private void UpdateModifiers()
@@ -209,8 +296,11 @@ namespace IdleEngine.Generator
             {
                 Owned = Owned,
                 ProductionCycleInSeconds = ProductionCycleInSeconds,
-                Id = name
-            };
+                Earnings = Earnings,
+                ProductionsLeft = ProductionsLeft,
+                Id = name,
+                Cosmetic = Cosmetic
+    };
         }
 
         public void SetRestorableData(RuntimeData data)
